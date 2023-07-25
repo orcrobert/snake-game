@@ -10,7 +10,7 @@ speed = 15
 block = 10
 
 font = pygame.font.SysFont("consolas", 18)
-dis = pygame.display.set_mode((600, 500))
+dis = pygame.display.set_mode((height, width))
 pygame.display.update()
 
 pygame.display.set_caption('Snake Game')
@@ -31,20 +31,18 @@ def showScore(length):
 
 def showOverMessage():
     message = font.render("Loser! Press Q to quit or C to continue.", True, blue)
-    dis.blit(message, [100, 150])
+    dis.blit(message, [90, 150])
 
 def getFoodCoordinatesX():
     cx = round(random.randrange(0, width - block) / 10.0) * 10.0
-    while cx < 0 and cx >= width:
+    while cx < 0 and cx > width:
         getFoodCoordinatesX()
-    print(str(cx) + " ")
     return cx
 
 def getFoodCoordinatesY():
     cy = round(random.randrange(0, height - block) / 10.0) * 10.0
-    while cy < 0 and cy >= height:
+    while cy < 0 and cy > height:
         getFoodCoordinatesY()
-    print(str(cy) + "\n")
     return cy
 
 def gameLoop():
@@ -120,14 +118,15 @@ def gameLoop():
 
         showSnake(snake_list)
         showScore(length)
+        pygame.display.update()
 
         if x == food_x and y == food_y:
             length += 1
             food_x = getFoodCoordinatesX()
             food_y = getFoodCoordinatesY()
             pygame.draw.rect(dis, red, [food_x, food_y, block, block])
+            pygame.display.update()
 
-        pygame.display.update()
         clock.tick(speed)
 
     pygame.quit()
